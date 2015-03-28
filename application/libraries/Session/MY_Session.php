@@ -35,7 +35,7 @@ class MY_Session extends CI_Session
         if (count($keys) > 1) {
             return $this->_get_data_desde_ruta($keys);
         }
-        return isset($_SESSION[$key]) ? $_SESSION[$key] : NULL;
+        return $this->userdata($key);
     }
 
     /**
@@ -57,7 +57,8 @@ class MY_Session extends CI_Session
         if (count($keys) > 1) {
             $this->_set_data_desde_ruta($keys, $value);
         } else {
-            $_SESSION[$key] = $value;
+            //$_SESSION[$key] = $value;
+            $this->set_userdata($key, $value);
         }
     }
 
