@@ -1,7 +1,7 @@
 <?php
 
 /**
- * 25/03/2015
+ * 28/03/2015
  * File: MY_Session.php
  * Encoding: UTF-8
  * Project: iron_acl_ci3
@@ -9,7 +9,7 @@
  *
  * @author Diego Olmedo
  */
-class MY_Session_files_driver extends CI_Session_files_driver 
+class MY_Session extends CI_Session
 {
 
     public function __construct(array $params = array())
@@ -61,6 +61,11 @@ class MY_Session_files_driver extends CI_Session_files_driver
         }
     }
 
+
+    public function finalizar()
+    {
+        $this->sess_destroy();
+    }
     /**
      * Obtiene el valor de un elemento del array a partir de una cadena separada
      * por barras (/)
@@ -110,4 +115,5 @@ class MY_Session_files_driver extends CI_Session_files_driver
         }
         $refSession = $valor;
     }
+
 }
