@@ -15,7 +15,7 @@ class Acl_login extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library("session", NULL, "phpsession");
+        $this->load->library("session");
         $this->load->helper(array("url", "acl"));
         $this->load->model("acl/acl_login_model", "model");
 
@@ -26,12 +26,12 @@ class Acl_login extends CI_Controller
      */
     public function index()
     {
-        if ( ! is_null($this->phpsession->get_data('usuario'))) {
+        if ( ! is_null($this->session->get_data('usuario'))) {
             redirect("/", "refresh");
         }
         $referer = $this->input->server("HTTP_REFERER");
         if (stripos($referer, "login") === FALSE) {
-            $this->phpsession->set_data("referer", $this->input->server("HTTP_REFERER"));
+            $this->session->set_data("referer", $this->input->server("HTTP_REFERER"));
         }
 
         $dataPagina = array();
@@ -65,7 +65,7 @@ class Acl_login extends CI_Controller
             if ($nroError === Acl_login_model::LOGIN_CORRECTO) {
                 $idUsuarioLogueado = (int) $this->model->get_id_usuario();
                 $this->_llenar_datos_usuario($idUsuarioLogueado);
-                $referer = $this->phpsession->get_data("referer");
+                $referer = $this->session->get_data("referer");
                 if (empty($referer)) {
                     $referer = "/";
                 }
@@ -86,7 +86,7 @@ class Acl_login extends CI_Controller
      */
     public function logout()
     {
-        $this->phpsession->finalizar();
+        $this->session->finalizar();
         redirect("/");
     }
 
@@ -95,7 +95,7 @@ class Acl_login extends CI_Controller
         $this->load->model("acl/acl_usuarios_model", "usuario_model");
         $datosUsuario = (array) $this->usuario_model->buscar_por_id((int) $iIdUsuario);
         if ( ! empty($datosUsuario)) {
-            $this->phpsession->set_data('usuario', $datosUsuario);
+            $this->session->set_data('usuario', $datosUsuario);
         }
     }
 

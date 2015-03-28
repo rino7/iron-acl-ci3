@@ -189,8 +189,8 @@ if ( ! function_exists('show_error_permiso')) {
 if ( ! function_exists('get_descripcion_modulos')) {
 
     /**
-     * Devuelve un array de las descripciones de los módulos de permisos (controladores)
-     * donde la key es el controlador y el value la descripción.
+     * Devuelve un array de las descripciones de los mï¿½dulos de permisos (controladores)
+     * donde la key es el controlador y el value la descripciï¿½n.
      *
      * @return array
      */
@@ -213,10 +213,10 @@ if ( ! function_exists('tiene_permiso')) {
     {
         $identificador = trim($sIdentificador, "/");
         $CI = & get_instance();
-        $CI->load->library("acl/acl_control");
+        $CI->load->library("Acl/Acl_control", NULL, "acl_control");
         $tiene_permiso = $CI->acl_control->tiene_permiso($identificador);
         if ($tiene_permiso === TRUE OR $tiene_permiso === NULL) {
-            //En teoría: si no está el permiso en la db es porque no hace falta permiso => whitelist por código
+            //En teorï¿½a: si no estï¿½ el permiso en la db es porque no hace falta permiso => whitelist por cï¿½digo
             return TRUE;
         }
         return FALSE;

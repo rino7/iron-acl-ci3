@@ -30,11 +30,11 @@ class Acl_control
         //cargo las configuraciones de acl
         $this->_CI->config->load("acl");
         $this->_CI->load->database();
-        $this->_CI->load->library("session", NULL, "phpsession");
+        $this->_CI->load->library("session");
         $this->_CI->load->helper(array("acl", "url"));
 
-        $this->_id_usuario = (int) $this->_CI->phpsession->get_data("usuario/id_acl_usuario");
-        //echo "<hr/><pre>";print_r($this->_CI->phpsession->get_data("usuario"));echo "</pre><hr/>";die();
+        $this->_id_usuario = (int) $this->_CI->session->get_data("usuario/id_acl_usuario");
+        //echo "<hr/><pre>";print_r($this->_CI->session->get_data("usuario"));echo "</pre><hr/>";die();
 //        var_dump($this->_id_usuario); die;
         $this->_url_redirect = '/acl/error';
         $this->_controladores_whitelist = array("acl");
