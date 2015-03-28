@@ -20,6 +20,16 @@ class Acl_usuarios_model extends CI_Model
         parent::__construct();
     }
 
+    public function usuario_existente($sUsuario, $iIdUsuario)
+    {
+        $id_usuario = (int) $iIdUsuario;
+        $usuario = (string) $sUsuario;
+        $where = array("usuario" => $usuario, self::PK_TABLA_USUARIO . " <>" => $id_usuario);
+        $this->db->where($where);
+        $count = $this->db->count_all_results(self::TABLA_USUARIO);
+        return $count > 0;
+    }
+
     public function get_all($iLimit = 0, $iOffset = 0, $sOrden = self::PK_TABLA_USUARIO, $sSentido = "desc", $bSoloActivos = FALSE)
     {
         $limit = (int) $iLimit;

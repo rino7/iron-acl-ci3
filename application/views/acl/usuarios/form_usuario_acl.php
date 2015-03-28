@@ -1,3 +1,10 @@
+<?php if ($error = $this->input->get("error")): ?>
+    <?php if ($error === "usuario_existente"): ?>
+        <div class='alert alert-danger'>
+            <p>Atenci&oacute;n: El usuario <strong><?php echo $data["usuario"]; ?></strong> ya se encuentra registrado. Utilice otro por favor</p>
+        </div>
+    <?php endif; ?>
+<?php endif; ?>
 <form method="POST" class="form-vertical col-md-6 col-md-offset-3" action="/acl/acl_usuarios/guardar">
     <fieldset>
         <input type="hidden" name="id_usuario" value="<?php echo (int) $id_usuario; ?>" />
@@ -11,16 +18,16 @@
         </div>
         <div class="form-group">
             <label>Usuario</label>
-            <input type="text" name="usuario" id="usuario" class="form-control" value="<?php echo isset($data["usuario"]) ? $data["usuario"] : ""; ?>" required />
+            <input autocomplete="off" type="text" name="usuario" id="usuario" class="form-control" value="<?php echo isset($data["usuario"]) ? $data["usuario"] : ""; ?>" required />
         </div>
         <?php if ($id_usuario === 0) : ?>
             <div class="form-group">
                 <label>Contrase&ntilde;a</label>
-                <input type="password" name="contrasenia" id="contrasenia" class="form-control" value="" required />
+                <input autocomplete="off" type="password" name="contrasenia" id="contrasenia" class="form-control" value="" required />
             </div>
             <div class="form-group">
                 <label>Repetir Contrase&ntilde;a</label>
-                <input type="password" name="repite_contrasenia" id="repite_contrasenia" class="form-control" value="" required />
+                <input autocomplete="off" type="password" name="repite_contrasenia" id="repite_contrasenia" class="form-control" value="" required />
             </div>
         <?php else: ?>
             <a href="/acl/acl_usuarios/cambiar_contrasenia/<?php echo $id_usuario; ?>" class="btn btn-warning">Cambiar contrase&ntilde;a</a>

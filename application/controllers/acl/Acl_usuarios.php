@@ -25,7 +25,7 @@ class Acl_usuarios extends CI_Controller
         parent::__construct();
         $this->load->library(array("acl/acl", "pagination"));
         $this->load->helper(array("url", "acl"));
-        $this->load->model("acl/acl_usuarios_model", "model");
+        $this->load->model("acl/acl_usuarios_model", "acl_usuarios_model");
     }
 
     public function index()
@@ -37,12 +37,12 @@ class Acl_usuarios extends CI_Controller
     {
         $order_by = strtolower($sOrderBy);
         $sentido = strtolower($sSentido) === "desc" ? "asc" : "desc";
-        $total_registros = $this->model->count_all();
+        $total_registros = $this->acl_usuarios_model->count_all();
         $pag = $this->uri->segment(self::PAG_SEGMENT);
         $offset = (($pag > 0 ? $pag : 1 ) * self::RPP) - self::RPP;
 
         $dataPagina = array();
-        $dataPagina["usuarios"] = $this->model->get_all(self::RPP, $offset, $sOrderBy, $sSentido);
+        $dataPagina["usuarios"] = $this->acl_usuarios_model->get_all(self::RPP, $offset, $sOrderBy, $sSentido);
         $dataPagina["order_by"] = $order_by;
         $dataPagina["sentido"] = $sentido;
         $dataPagina["total_registros"] = $total_registros;
@@ -60,7 +60,7 @@ class Acl_usuarios extends CI_Controller
     {
         $dataPagina = array();
         $dataPagina["id_usuario"] = 0;
-        $dataPagina["data"] = array();
+        $dataPagina["data"] = $this->session->flashdata("postdata");
         $dataLayout = array();
         $dataLayout["contenido"] = $this->load->view("acl/usuarios/form_usuario_acl", $dataPagina, TRUE);
         $this->load->view("acl/layout_acl", $dataLayout);
@@ -74,7 +74,7 @@ class Acl_usuarios extends CI_Controller
         }
         $dataPagina = array();
         $dataPagina["id_usuario"] = $id_usuario;
-        $dataPagina["data"] = $this->model->buscar_por_id($id_usuario, FALSE);
+        $dataPagina["data"] = $this->acl_usuarios_model->buscar_por_id($id_usuario, FALSE);
         $dataLayout = array();
         $dataLayout["contenido"] = $this->load->view("acl/usuarios/form_usuario_acl", $dataPagina, TRUE);
         $this->load->view("acl/layout_acl", $dataLayout);
@@ -84,20 +84,30 @@ class Acl_usuarios extends CI_Controller
     {
         if ($this->input->post("guardar")) {
             $id_usuario = (int) $this->input->post("id_usuario");
+            $usuario = $this->input->post("usuario");
             $values = array(
                 "nombre" => $this->input->post("nombre"),
                 "apellido" => $this->input->post("apellido"),
                 "email" => $this->input->post("email"),
-                "usuario" => $this->input->post("usuario"),
+                "usuario" => $usuario,
                 "activo" => $this->input->post("activo"),
             );
+            $usuario_existente = $this->acl_usuarios_model->usuario_existente($usuario, $id_usuario);
+            if ($usuario_existente === TRUE) {
+                $this->session->set_flashdata("postdata", $this->input->post());
+                if ($id_usuario > 0) {
+                    redirect("/acl/acl_usuarios/editar/{$id_usuario}/?error=usuario_existente");
+                } else {
+                    redirect("/acl/acl_usuarios/nuevo/?error=usuario_existente");
+                }
+            }
             if ($id_usuario > 0) {
-                $ok = $this->model->actualizar($id_usuario, $values);
+                $ok = $this->acl_usuarios_model->actualizar($id_usuario, $values);
             } else {
 
                 if (TRUE === $this->_contrasenia_valida($this->input->post("contrasenia"), $this->input->post("repite_contrasenia"))) {
                     $values["contrasenia"] = $this->_encriptar_contrasenia($this->input->post("contrasenia"));
-                    $id_usuario = $this->model->insertar($values);
+                    $id_usuario = $this->acl_usuarios_model->insertar($values);
                     $ok = $id_usuario > 0;
                 } else {
                     redirect("/acl/acl_usuarios/editar/{$id_usuario}/contrasenia_invalida");
@@ -127,7 +137,7 @@ class Acl_usuarios extends CI_Controller
     {
         $id_usuario = (int) $iIdUsuario;
         $dataPagina = array();
-        $dataPagina["permisos"] = $this->model->get_permisos_por_usuario($id_usuario);
+        $dataPagina["permisos"] = $this->acl_usuarios_model->get_permisos_por_usuario($id_usuario);
         $dataPagina["id_usuario"] = $id_usuario;
         $dataPagina["nombre_usuario"] = get_nombre_usuario($id_usuario, "COMPLETO");
 
@@ -140,13 +150,13 @@ class Acl_usuarios extends CI_Controller
     {
         $order_by = strtolower($sOrderBy);
         $sentido = strtolower($sSentido) === "desc" ? "asc" : "desc";
-//        $total_registros = $this->model->count_all();
+//        $total_registros = $this->acl_usuarios_model->count_all();
 //        $pag = $this->uri->segment(self::PAG_SEGMENT);
 //        $offset = (($pag > 0 ? $pag : 1 ) * self::RPP) - self::RPP;
 
         $id_usuario = (int) $iIdUsuario;
         $dataPagina = array();
-        $dataPagina["grupos"] = $this->model->get_grupos_por_usuario($id_usuario, $order_by, $sSentido);
+        $dataPagina["grupos"] = $this->acl_usuarios_model->get_grupos_por_usuario($id_usuario, $order_by, $sSentido);
         $dataPagina["id_usuario"] = $id_usuario;
         $dataPagina["order_by"] = $order_by;
         $dataPagina["sentido"] = $sentido;
@@ -204,7 +214,7 @@ class Acl_usuarios extends CI_Controller
             $accion = $this->input->post("accion");
             $id_grupo = (int) $this->input->post("id");
             $value = strtolower($accion) === "desactivar" ? "N" : "S";
-            $ok = $this->model->cambiar_activo($value, $id_grupo);
+            $ok = $this->acl_usuarios_model->cambiar_activo($value, $id_grupo);
             if ($ok === TRUE) {
                 echo "ok";
                 die;
@@ -218,7 +228,7 @@ class Acl_usuarios extends CI_Controller
     {
         if ($this->input->post("eliminar")) {
             $ids_usuarios = $this->input->post("usuarios");
-            $ok = $this->model->eliminar_usuarios($ids_usuarios);
+            $ok = $this->acl_usuarios_model->eliminar_usuarios($ids_usuarios);
             if ($ok === TRUE) {
                 redirect(self::RUTA_LISTADO . "/?respuesta=eliminados_ok");
             }
@@ -233,7 +243,7 @@ class Acl_usuarios extends CI_Controller
             if (TRUE === $this->_contrasenia_valida($this->input->post("contrasenia"), $this->input->post("repite_contrasenia"))) {
                 $id_usuario = (int) $this->input->post("id_usuario");
                 $nueva_contrasenia = $this->_encriptar_contrasenia($this->input->post("contrasenia"));
-                $ok = $this->model->cambiar_contrasenia($nueva_contrasenia, $id_usuario);
+                $ok = $this->acl_usuarios_model->cambiar_contrasenia($nueva_contrasenia, $id_usuario);
                 if ($ok === TRUE) {
                     redirect("/acl/acl_usuarios/cambiar_contrasenia/{$id_usuario}/?respuesta=ok");
                 } else {
@@ -246,7 +256,7 @@ class Acl_usuarios extends CI_Controller
 
         $id_usuario = (int) $iIdUsuario;
         $dataPagina = array();
-        $dataPagina["permisos"] = $this->model->get_permisos_por_usuario($id_usuario);
+        $dataPagina["permisos"] = $this->acl_usuarios_model->get_permisos_por_usuario($id_usuario);
         $dataPagina["id_usuario"] = $id_usuario;
         $dataPagina["nombre_usuario"] = get_nombre_usuario($id_usuario, "COMPLETO");
 
@@ -256,13 +266,13 @@ class Acl_usuarios extends CI_Controller
     }
 
     /**
-     * Encripta la contraseña con crypy y el salt Blowfish
+     * Encripta la contraseï¿½a con crypy y el salt Blowfish
      * Idea tomada del siguiente link
      * @link http://alias.io/2010/01/store-passwords-safely-with-php-and-mysql/
      * PDF en proyecto plataforma_multiservicios:
      * @link \plataforma_multiservicios\documentacion\EncriptacionPasswordsUsada.pdf
-     * @param string $password La contraseña a encriptar
-     * @return string La contraseña encriptada
+     * @param string $password La contraseï¿½a a encriptar
+     * @return string La contraseï¿½a encriptada
      */
     private function _encriptar_contrasenia($password)
     {
@@ -282,7 +292,7 @@ class Acl_usuarios extends CI_Controller
         $id_usuario = (int) $iIdUsuario;
         $permisos = (array) $aPermisos;
         $values = array();
-        //@TODO: evaluar si conviene insertar también los controladores/acciones que no fueron seteados ni por req ni por whitelist
+        //@TODO: evaluar si conviene insertar tambiï¿½n los controladores/acciones que no fueron seteados ni por req ni por whitelist
         foreach ($permisos as $id_permiso => $permitido) {
             $value = array();
             $value["fk_acl_usuario"] = $id_usuario;
