@@ -15,6 +15,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $hook['post_controller_constructor'] = array(
     'class' => 'Acl_control',
     'function' => 'validar_permiso',
-    'filename' => 'acl_control.php',
-    'filepath' => 'libraries/acl'
+    'filename' => 'Acl_control.php',
+    'filepath' => 'libraries/Acl'
 );
