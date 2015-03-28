@@ -1,0 +1,88 @@
+/*
+    Created on : 08/11/2014, 15:28:49
+    Author     : Diego Olmedo
+*/
+.navbar-brand{
+    padding: 5px 10px;
+}
+
+table td.center, table th.center {
+    text-align: center;
+}
+
+form .panel-title {
+    width: 30%;
+    display: inline;
+}
+
+form .js-botones-todo {
+    display: inline;
+    margin-top: -8px;
+}
+form .js-botones-todo .btn{
+
+    margin-left: 12px;
+}
+
+.js-botones-todo .btn-success.seleccionado {
+    background-color: #469408;
+    //background-color: yellow;
+    border: 1px solid #2f6405;
+    color: #ffffff;
+}
+
+.js-botones-todo .btn-danger.seleccionado {
+    background-color: #d9230f;
+    //background-color: blue;
+    border: 1px solid #a91b0c;
+    color: #ffffff;
+}
+
+.input-med, .form-inline .input-med {
+    width: 350px;
+}
+
+.body-login {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.body-login .form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.body-login .form-signin .form-signin-heading,
+.body-login .form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.body-login .form-signin .checkbox {
+    font-weight: normal;
+}
+.body-login .form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.body-login .form-signin .form-control:focus {
+    z-index: 2;
+}
+.body-login .form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.body-login .form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.botonera {
+    margin-bottom: 10px;
+}
