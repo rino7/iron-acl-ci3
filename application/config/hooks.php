@@ -12,7 +12,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
   |	http://codeigniter.com/user_guide/general/hooks.html
   |
  */
-$hook['post_controller_constructor'] = array(
+$hook['post_controller_constructor'][] = array(
     'class' => 'Acl_control',
     'function' => 'validar_permiso',
     'filename' => 'Acl_control.php',

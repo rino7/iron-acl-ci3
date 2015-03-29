@@ -76,7 +76,7 @@ class Acl_control
             //var_dump($identificador);die;
             $tiene_permiso = $this->tiene_permiso($identificador);
             if ($tiene_permiso === NULL) {
-                //En teor�a si no est� es porque no hace falta permiso => whitelist por c�digo
+                //En teoría si no está es porque no hace falta permiso => whitelist por código
                 return TRUE;
                 //redirect($this->_url_redirect . "/permiso_desconocido/$identificador");
             }

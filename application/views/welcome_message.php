@@ -76,15 +76,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <?php else: ?>
                     <a href="/login" style="float: right;">Ingresar</a>
                 <?php endif; ?>
-                <p>The page you are looking at is being generated dynamically by CodeIgniter.</p>
-
-                <p>If you would like to edit this page you'll find it located at:</p>
-                <code>application/views/welcome_message.php</code>
-
-                <p>The corresponding controller for this page is found at:</p>
-                <code>application/controllers/Welcome.php</code>
-
-                <p>If you are exploring CodeIgniter for the very first time, you should start by reading the <a href="user_guide/">User Guide</a>.</p>
+                    <ul>
+                        <li><a href="/ejemplo/metodo_no_permitido">M&eacute;todo NO permitido</a></li>
+                        <li><a href="/ejemplo/metodo_no_requerido">M&eacute;todo NO requerido</a></li>
+                        <li><a href="/ejemplo/metodo_permitido">M&eacute;todo permitido</a></li>
+                        <li><a href="/ejemplo/metodo_requerido">M&eacute;todo requerido</a></li>
+                        <li><a href="/ejemplo/metodo_sin_definir_requerimiento">M&eacute;todo sin definir requerimiento</a></li>
+                        <li><a href="/ejemplo/metodo_sin_definir_permiso">M&eacute;todo sin definir permiso</a></li>
+                    </ul>
                 <p>Session Data:
 
                     <?php

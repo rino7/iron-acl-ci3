@@ -2,6 +2,9 @@
 
 defined('BASEPATH') OR exit('No direct script access allowed');
 
+/**
+ * @moduloPermiso Controlador de bienvenida
+ */
 class Welcome extends MY_Controller
 {
 
@@ -24,7 +27,13 @@ class Welcome extends MY_Controller
     {
         $logueado = $this->session->userdata("usuario");
 
-        $this->load->view('welcome_message', array("logueado" => $logueado));
+        //$this->load->view('welcome_message',);
+
+        $dataPagina = array("logueado" => $logueado);
+        $dataLayout = array();
+        $dataLayout["contenido"] = $this->load->view("welcome_message", $dataPagina, TRUE);
+        $this->load->view("acl/layout_acl", $dataLayout);
     }
+
 
 }

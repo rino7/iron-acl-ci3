@@ -1,10 +1,10 @@
 <?php
 /**
- * Fuerza a loguearse si no lo está
+ * Fuerza a loguearse si no lo estï¿½
  */
-$config["autenticar"] = FALSE;
+$config["autenticar"] = TRUE;
 /**
  * Habilita el control de acceso por niveles.
- * Si está en false, todos tienen permiso a todo
+ * Si estï¿½ en false, todos tienen permiso a todo
  */
-$config["acl_habilitado"] = FALSE;
+$config["acl_habilitado"] = TRUE;
