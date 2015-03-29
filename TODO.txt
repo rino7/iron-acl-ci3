@@ -1,7 +1,8 @@
 - Usar annotations @whitelist para evitar controladores en listado de permisos a través del código (ya está implementado en métodos)
 - Implementar permisos customizados
-
-
+- Implementar "Heredar permisos de xxx grupo" y "xxx usuario" (duplicar los registros de la db para un grupo/usuario)
+- Implementar colores en permisos de usuarios
+- Optimizar los js.
 
 - Arreglar errores de carácteres por ajax. Pasar todo a utf-8?
 - Implementar paginado en página "asignar usuarios a grupo"
