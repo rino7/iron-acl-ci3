@@ -4,7 +4,7 @@
     <input type="hidden" value="<?php echo $id_grupo; ?>" name="id_grupo" />
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <?php foreach ($permisos as $controlador => $acciones) : ?>
-            <div class="panel panel-default">
+            <div class="panel js-contenedor-controlador">
                 <div class="panel-heading" role="tab" id="heading_<?php echo $controlador; ?>">
                     <h4 class="panel-title">
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#acciones_<?php echo $controlador; ?>" aria-expanded="false" aria-controls="acciones_<?php echo $controlador; ?>">
@@ -12,7 +12,7 @@
                         </a>
                     </h4>
                     <div class="pull-right js-botones-todo">
-                        <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-success seleccionar-todos-permitido">Todo permitido</button>
+                        <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-default seleccionar-todos-permitido">Seleccionar todos</button>
                     </div>
                 </div>
                 <div id="acciones_<?php echo $controlador; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_<?php echo $controlador; ?>">
