@@ -10,7 +10,7 @@
 <form action="/acl/acl_permisos/guardar" method="POST" id="form_permisos">
     <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
         <?php foreach ($permisos as $controlador => $acciones) : ?>
-            <div class="panel panel-default">
+            <div class="panel panel-default js-contenedor-controlador">
                 <div class="panel-heading" role="tab" id="heading_<?php echo $controlador; ?>">
                     <h4 class="panel-title">
                         <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#acciones_<?php echo $controlador; ?>" aria-expanded="false" aria-controls="acciones_<?php echo $controlador; ?>">
@@ -19,8 +19,8 @@
                     </h4>
                     <input type="hidden" name="controladores[<?php echo $controlador; ?>]" value="<?php echo ( ! empty($acciones["descripcion_modulo"])) ? $acciones["descripcion_modulo"] : $controlador; ?>" />
                     <div class="pull-right js-botones-todo">
-                        <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-success js-permitir-todo">Todo permitido</button>
-                        <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-danger js-requerir-todo">Todo requerido</button>
+                        <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-success js-permitir-todo">Permitir todo</button>
+                        <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-danger js-requerir-todo">Requerir todo</button>
                     </div>
                 </div>
                 <div id="acciones_<?php echo $controlador; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_<?php echo $controlador; ?>">
@@ -43,16 +43,16 @@
                                         <td>
                                             <input type='hidden' value='<?php echo $accion["descripcion"]; ?>' name='descripcion[<?php echo $accion["identificador"]; ?>]' />
                                             <?php if ($controlador === Acl::CONTROLADOR_CUSTOM) : ?>
-                                                <a href="/acl/acl_permisos/custom/<?php echo $accion["id_acl_permiso"]; ?>" class="glyphicon glyphicon-edit"></a> | 
+                                                <a href="/acl/acl_permisos/custom/<?php echo $accion["id_acl_permiso"]; ?>" class="glyphicon glyphicon-edit"></a> |
                                             <?php endif; ?>
                                             <?php echo ! empty($accion["descripcion"]) ? $accion["descripcion"] : $accion["accion"]; ?>
                                         </td>
                                         <td><?php echo $accion["accion"]; ?></td>
                                         <td class="center">
-                                            <input <?php echo (int) $accion["whitelist"] === 1 ? "checked" : ""; ?> class="js-radio-whitelist-<?php echo $controlador; ?>" type="radio" value="0" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
+                                            <input <?php echo (int) $accion["whitelist"] === 1 ? "checked" : ""; ?> class="js-radio-whitelist js-radio-whitelist-<?php echo $controlador; ?>" type="radio" value="0" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
                                         </td>
                                         <td class="center">
-                                            <input <?php echo (int) $accion["blacklist"] === 1 ? "checked" : ""; ?>  class="js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="1" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
+                                            <input <?php echo (int) $accion["blacklist"] === 1 ? "checked" : ""; ?>  class="js-radio-blacklist js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="1" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

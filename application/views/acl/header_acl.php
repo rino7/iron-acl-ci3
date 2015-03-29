@@ -15,6 +15,9 @@
         <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
 <!--        <script src="/assets/acl/js/pubsub.js" type="text/javascript"></script>-->
         <script src="/assets/acl/js/acl.js"></script>
+        <?php if (isset($js_agregado)) : ?>
+            <script src="<?php echo $js_agregado; ?>"></script>
+        <?php endif; ?>
         <!-- Jquery UI para jquery 1.11.0 -->
         <link rel="stylesheet" href="/assets/acl/jquery-ui/jquery-ui.min.css">
         <script src="/assets/acl/jquery-ui/jquery-ui.min.js"></script>

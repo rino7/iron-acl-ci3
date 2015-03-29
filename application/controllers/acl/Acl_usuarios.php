@@ -152,6 +152,7 @@ class Acl_usuarios extends CI_Controller
 
         $dataLayout = array();
         $dataLayout["contenido"] = $this->load->view("acl/usuarios/asignar_permisos_usuario", $dataPagina, TRUE);
+        $dataLayout["js_agregado"] = "/assets/acl/js/permisos_usuario.js";
         $this->load->view("acl/layout_acl", $dataLayout);
     }
 

@@ -37,6 +37,7 @@ class Acl_permisos extends CI_Controller
 
         $dataLayout = array();
         $dataLayout["contenido"] = $this->load->view("acl/permisos/permisos_acl", $dataIndex, TRUE);
+        $dataLayout["js_agregado"] = "/assets/acl/js/permisos.js";
         $this->load->view("acl/layout_acl", $dataLayout);
     }
 
@@ -115,12 +116,12 @@ class Acl_permisos extends CI_Controller
     private function _procesar_permisos($aPermisos)
     {
         $permisos = (array) $aPermisos;
-        //@TODO: evaluar si conviene insertar también los controladores/acciones que no fueron seteados ni por req ni por whitelist
+        //@TODO: evaluar si conviene insertar tambiï¿½n los controladores/acciones que no fueron seteados ni por req ni por whitelist
         $descripciones = $this->input->post("descripcion");
         //Pongo en activo = 0, todos los permisos
         $this->model->desactivar_permisos();
         foreach ($permisos as $identificador => $blacklist) {
-            //Luego, los permisos que están vigentes updatean el campo activo = 1
+            //Luego, los permisos que estï¿½n vigentes updatean el campo activo = 1
             $descripcion = isset($descripciones[$identificador]) ? $descripciones[$identificador] : "";
             if ($this->model->permiso_existente($identificador) === TRUE) {
                 $this->_actualizar_permiso($descripcion, $identificador, $blacklist);
@@ -128,7 +129,7 @@ class Acl_permisos extends CI_Controller
                 $this->_insertar_permiso($descripcion, $identificador, $blacklist);
             }
         }
-        //Finalmente, los que quedaron con activo = 0. Los borro porque significa que no se usan más.
+        //Finalmente, los que quedaron con activo = 0. Los borro porque significa que no se usan mï¿½s.
         $this->model->borrar_permisos_obsoletos();
     }
 

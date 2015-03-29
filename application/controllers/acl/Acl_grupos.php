@@ -124,6 +124,7 @@ class Acl_grupos extends CI_Controller
 
         $dataLayout = array();
         $dataLayout["contenido"] = $this->load->view("acl/grupos/asignar_permisos_grupo", $dataPagina, TRUE);
+        $dataLayout["js_agregado"] = "/assets/acl/js/permisos_grupo.js";
         $this->load->view("acl/layout_acl", $dataLayout);
     }
 
@@ -239,7 +240,7 @@ class Acl_grupos extends CI_Controller
             $mensaje = "Error desconocido";
             $class = "danger";
             if ($respuesta === "nombre_vacio") {
-                $mensaje = "El nombre del grupo no puede estar vacío";
+                $mensaje = "El nombre del grupo no puede estar vacï¿½o";
                 $class = "danger";
             }
             if ($respuesta === "error_db") {
@@ -271,7 +272,7 @@ class Acl_grupos extends CI_Controller
         $id_grupo = (int) $iIdGrupo;
         $permisos = (array) $aPermisos;
         $values = array();
-        //@TODO: evaluar si conviene insertar también los controladores/acciones que no fueron seteados ni por req ni por whitelist
+        //@TODO: evaluar si conviene insertar tambiï¿½n los controladores/acciones que no fueron seteados ni por req ni por whitelist
         foreach ($permisos as $id_permiso => $permitido) {
             $value = array();
             $value["fk_acl_grupo"] = $id_grupo;
