@@ -1,0 +1,18 @@
+- Usar annotations @whitelist para evitar controladores en listado de permisos a través del código (ya está implementado en métodos)
+- Implementar permisos customizados
+
+
+
+- Arreglar errores de carácteres por ajax. Pasar todo a utf-8?
+- Implementar paginado en página "asignar usuarios a grupo"
+- Modificar la implementación de asignación de grupos a usuarios para que el campo "asignado" venga en la query y de esa forma poder ordenar por ese campo, para que queden arriba los grupos asignados por ejemplo
+
+- Implementar muestra de permisos de grupos, y de usuarios.
+- Validar por usuarios, grupos y permisos activos en las queries
+- Javascript: Optimizar funcionalidades. Ejecutar en el on ready la función js para que lo aplique tanto on-the-fly como cuando carga la pág.
+- Optimizar maquetación
+- Controlar los permisos eliminados.
+
+
+Corregido:
+- Validar usuario existente en grupo en "asignar usuario a grupo"
