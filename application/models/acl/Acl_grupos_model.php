@@ -30,7 +30,7 @@ class Acl_grupos_model extends CI_Model
         //valido que no manden cualquier cosa en el sentido
         $sentido = strtolower($sSentido) === "desc" ? "desc" : "asc";
 
-        $where = array("estado" => "VIGENTE");
+        $where = array("eliminado" => 0);
         if ($bSoloActivos === TRUE) {
             $where["activo"] = "S";
         }
@@ -51,7 +51,7 @@ class Acl_grupos_model extends CI_Model
 
     public function count_all($bSoloActivos = FALSE)
     {
-        $where = array("estado" => "VIGENTE");
+        $where = array("eliminado" => 0);
         if ($bSoloActivos === TRUE) {
             $where["activo"] = "S";
         }
@@ -97,7 +97,7 @@ class Acl_grupos_model extends CI_Model
     public function grupo_existente($sNombre, $iIdGrupo)
     {
         $id_grupo = (int) $iIdGrupo;
-        $this->db->where(array("nombre" => $sNombre, "estado" => "VIGENTE", self::PK_TABLA_GRUPO => "<> {$id_grupo}"));
+        $this->db->where(array("nombre" => $sNombre, "eliminado" => 0, self::PK_TABLA_GRUPO => "<> {$id_grupo}"));
         return $this->db->count_all_results(self::TABLA_GRUPO) > 0;
     }
 
@@ -181,7 +181,7 @@ class Acl_grupos_model extends CI_Model
     public function eliminar_grupos($aIdsGrupos)
     {
         $ids_grupo = (array) $aIdsGrupos;
-        $values = array("activo" => "N", "estado" => "ELIMINADO");
+        $values = array("activo" => "N", "eliminado" => 0);
         foreach ($ids_grupo as $id_grupo) {
             $where[self::PK_TABLA_GRUPO] = $id_grupo;
             $this->db->update(self::TABLA_GRUPO, $values, $where);

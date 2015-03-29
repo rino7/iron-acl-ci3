@@ -46,7 +46,7 @@ if ( ! function_exists('get_grupos')) {
     function get_grupos($bSoloActivos = FALSE, $sOrden = "id_acl_grupo", $sSentido = "DESC")
     {
         $CI = & get_instance();
-        $where = array("estado" => "VIGENTE");
+        $where = array("eliminado" => 0);
         if ($bSoloActivos === TRUE) {
             $where["activo"] = "S";
         }
@@ -86,7 +86,7 @@ if ( ! function_exists('get_usuarios')) {
     function get_usuarios()
     {
         $CI = & get_instance();
-        $where = array("activo" => "S", "estado" => "VIGENTE");
+        $where = array("activo" => "S", "eliminado" => 0);
         $CI->db->where($where);
         return $CI->db->get_where("acl_usuario", $where)->result_array();
     }
@@ -189,8 +189,8 @@ if ( ! function_exists('show_error_permiso')) {
 if ( ! function_exists('get_descripcion_modulos')) {
 
     /**
-     * Devuelve un array de las descripciones de los m�dulos de permisos (controladores)
-     * donde la key es el controlador y el value la descripci�n.
+     * Devuelve un array de las descripciones de los módulos de permisos (controladores)
+     * donde la key es el controlador y el value la descripción.
      *
      * @return array
      */
@@ -216,7 +216,7 @@ if ( ! function_exists('tiene_permiso')) {
         $CI->load->library("Acl/Acl_control", NULL, "acl_control");
         $tiene_permiso = $CI->acl_control->tiene_permiso($identificador);
         if ($tiene_permiso === TRUE OR $tiene_permiso === NULL) {
-            //En teor�a: si no est� el permiso en la db es porque no hace falta permiso => whitelist por c�digo
+            //En teoría: si no está el permiso en la db es porque no hace falta permiso => whitelist por código
             return TRUE;
         }
         return FALSE;

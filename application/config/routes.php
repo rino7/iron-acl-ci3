@@ -54,6 +54,9 @@ $route['login'] = "acl/acl_login/index";
 $route['logout'] = "acl/acl_login/logout";
 $route['acl/permisos'] = "acl/acl_permisos";
 
+$route['acl/usuarios'] = "acl/acl_usuarios";
+$route['acl/usuarios/(:any)'] = "acl/acl_usuarios/$1";
+
 $route['default_controller'] = 'welcome';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

@@ -25,18 +25,59 @@
                                     <th>Acci&oacute;n</th>
                                     <th class="center">Permtir</th>
                                     <th class="center">Denegar</th>
+                                    <th class="center">Estado Actual</th>
+                                    <th class="center">Heredado De</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <?php foreach ($acciones as $index => $accion) : ?>
+                                <?php
+                                foreach ($acciones as $index => &$accion) :
+                                    $id_acl_permiso = (int) $accion["id_acl_permiso"];
+                                    $permitido = NULL;
+                                    $heredado_de = array();
+//                                    echo "<hr/> " . __FILE__ . " -> " . __LINE__ . "<pre>";
+//                                    print_r($permisos_de_usuario);
+//                                    echo "</pre><hr/>";
+//                                    die();
+                                    if (isset($permisos_de_usuario[$id_acl_permiso])) {
+                                        $permitido = (int) $permisos_de_usuario[$id_acl_permiso]["tipo_permiso"] === 1;
+                                        $heredado_de = $permisos_de_usuario[$id_acl_permiso]["heredado_de"]["nombres"];
+                                    }
+                                    ?>
                                     <tr>
                                         <td><?php echo ! empty($accion["descripcion"]) ? $accion["descripcion"] : $accion["accion"]; ?></td>
                                         <td><?php echo $accion["accion"]; ?></td>
                                         <td class="center">
-                                            <input <?php echo (int) $accion["permitido"] === 1 ? "checked" : ""; ?>  class="js-radio-whitelist-<?php echo $controlador; ?>" type="radio" value="1" name="permitido[<?php echo $accion["id_acl_permiso"]; ?>]" />
+                                            <input class="js-radio-whitelist-<?php echo $controlador; ?>" type="radio" value="1" name="permitido[<?php echo $id_acl_permiso; ?>]" />
+
                                         </td>
                                         <td class="center">
-                                            <input <?php echo (int) $accion["denegado"] === 1 ? "checked" : ""; ?>  class="js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="0" name="permitido[<?php echo $accion["id_acl_permiso"]; ?>]" />
+                                            <input  class="js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="0" name="permitido[<?php echo $id_acl_permiso; ?>]" />
+                                        </td>
+                                        <td  class="center">
+                                            <?php if ($permitido === TRUE): ?>
+                                                <span class=" glyphicon glyphicon-ok " style="color:green"></span>
+                                            <?php else: ?>
+                                                <span class=" glyphicon glyphicon-remove " style="color:red"></span>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td class="center">
+                                            <?php if ( ! empty($heredado_de)) : ?>
+                                                <ul class="list-unstyled">
+                                                    <?php
+                                                    foreach ($heredado_de as $id_herencia => $nombre_grupo) :
+                                                        $tipo_permiso = (int) $permisos_de_usuario[$id_acl_permiso]["heredado_de"]["tipos_permiso"][$id_herencia];
+                                                        ?>
+                                                        <li style="text-align: left;">
+                                                            <span class="caret"></span>
+                                                            <?php echo ($tipo_permiso === 1) ? "Permitido por: " : "Denegado por:"; ?>
+                                                            &nbsp;<?php echo $nombre_grupo; ?>
+                                                        </li>
+                                                    <?php endforeach; ?>
+                                                </ul>
+                                            <?php else:; ?>
+                                                Sin asignar.
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

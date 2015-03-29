@@ -74,7 +74,11 @@ class Acl_usuarios extends CI_Controller
         }
         $dataPagina = array();
         $dataPagina["id_usuario"] = $id_usuario;
-        $dataPagina["data"] = $this->acl_usuarios_model->buscar_por_id($id_usuario, FALSE);
+        $data_usuario = $this->acl_usuarios_model->buscar_por_id($id_usuario, FALSE);
+        if ($this->session->flashdata("postdata")) {
+            $data_usuario = $this->session->flashdata("postdata");
+        }
+        $dataPagina["data"] = $data_usuario;
         $dataLayout = array();
         $dataLayout["contenido"] = $this->load->view("acl/usuarios/form_usuario_acl", $dataPagina, TRUE);
         $this->load->view("acl/layout_acl", $dataLayout);
@@ -135,9 +139,14 @@ class Acl_usuarios extends CI_Controller
 
     public function permisos_usuario($iIdUsuario = 0)
     {
+        $this->load->library("Acl/Acl_procesador_permisos", NULL, "procesador_permisos");
+        $this->load->model("Acl/Acl_permisos_model", "acl_permisos_model");
         $id_usuario = (int) $iIdUsuario;
         $dataPagina = array();
-        $dataPagina["permisos"] = $this->acl_usuarios_model->get_permisos_por_usuario($id_usuario);
+        $permisos_de_usuario = $this->procesador_permisos->get_permisos_de_usuario($id_usuario);
+
+        $dataPagina["permisos"] = $this->procesador_permisos->get_permisos_requeridos(TRUE);
+        $dataPagina["permisos_de_usuario"] = $permisos_de_usuario;
         $dataPagina["id_usuario"] = $id_usuario;
         $dataPagina["nombre_usuario"] = get_nombre_usuario($id_usuario, "COMPLETO");
 
@@ -190,7 +199,6 @@ class Acl_usuarios extends CI_Controller
     public function guardar_permisos_usuario()
     {
         $respuesta = "error";
-        //echo "<hr/><pre>";print_r($this->input->post());echo "</pre><hr/>";die();
         $id_usuario = (int) $this->input->post("id_usuario");
         if ($this->input->post("guardar")) {
             if ($id_usuario === 0) {
@@ -256,13 +264,59 @@ class Acl_usuarios extends CI_Controller
 
         $id_usuario = (int) $iIdUsuario;
         $dataPagina = array();
-        $dataPagina["permisos"] = $this->acl_usuarios_model->get_permisos_por_usuario($id_usuario);
+        $dataPagina["permisos"] = $this->acl_usuarios_model->get_permisos_personales_por_usuario($id_usuario);
         $dataPagina["id_usuario"] = $id_usuario;
         $dataPagina["nombre_usuario"] = get_nombre_usuario($id_usuario, "COMPLETO");
 
         $dataLayout = array();
         $dataLayout["contenido"] = $this->load->view("acl/usuarios/cambiar_contrasenia", $dataPagina, TRUE);
         $this->load->view("acl/layout_acl", $dataLayout);
+    }
+
+    /**
+     * Devuevle los permisos personales asignados a un usuario
+     * @param int $iIdUsuario
+     * @return array
+     */
+    private function _get_permisos_seteados_por_usuario($iIdUsuario)
+    {
+        $id_usuario = (int) $iIdUsuario;
+        $this->db->where("fk_acl_usuario", $id_usuario);
+        $rows = $this->db->get('acl_usuario_permiso')->result_array();
+
+        $permisos_de_grupo = $this->_get_permisos_de_grupo_heredados_por_usuario($id_usuario);
+    }
+
+    /**
+     * Estable la prioridad denegado > permitido en todos los permisos seteados a un usuario.
+     * Es decir que si un usuario tiene un permiso xxx otorgado por un grupo pero denegado por otro.
+     * El permiso xxx estará denegado para ese usuario.
+     * @param array $aPermisosSeteadosPorUsuario Los permisos que tiene un usuario
+     * @return array Los permisos de un usuario luego de establecida la priorida denegado > otorgado
+     */
+    private function _procesar_permisos_por_usuario($aPermisosSeteadosPorUsuario)
+    {
+        $permisos_requeridos = $this->_get_permisos_seteados(TRUE);
+        $permisos_por_usuario = (array) $aPermisosSeteadosPorUsuario;
+        $mis_permisos = array();
+        $index = 0;
+
+        foreach ($permisos_requeridos as &$permiso) {
+            $permiso["permitido"] = NULL;
+            $permiso["denegado"] = NULL;
+            if (isset($permisos_por_usuario[$permiso["id_acl_permiso"]])) {
+                $tipo_permiso = (int) $permisos_por_usuario[$permiso["id_acl_permiso"]]["tipo_permiso"];
+                $permiso["permitido"] = $tipo_permiso === 1 ? 1 : 0;
+                $permiso["denegado"] = $tipo_permiso === 0 ? 1 : 0;
+            }
+            $nombre_clase = mb_strtolower($permiso["controlador"]);
+            if ( ! isset($mis_permisos[$nombre_clase])) {
+                $mis_permisos[$nombre_clase] = array();
+            }
+            array_push($mis_permisos[$nombre_clase], $permiso);
+            $index ++;
+        }
+        return $mis_permisos;
     }
 
     /**

@@ -24,7 +24,11 @@ class Acl_usuarios_model extends CI_Model
     {
         $id_usuario = (int) $iIdUsuario;
         $usuario = (string) $sUsuario;
-        $where = array("usuario" => $usuario, self::PK_TABLA_USUARIO . " <>" => $id_usuario);
+        $where = array(
+            "usuario" => $usuario,
+            self::PK_TABLA_USUARIO . " <>" => $id_usuario,
+            "eliminado" => 0,
+        );
         $this->db->where($where);
         $count = $this->db->count_all_results(self::TABLA_USUARIO);
         return $count > 0;
@@ -33,7 +37,7 @@ class Acl_usuarios_model extends CI_Model
     public function get_all($iLimit = 0, $iOffset = 0, $sOrden = self::PK_TABLA_USUARIO, $sSentido = "desc", $bSoloActivos = FALSE)
     {
         $limit = (int) $iLimit;
-        $where = "estado = 'VIGENTE'";
+        $where = "eliminado = 0";
         $campos_orden = array("numero" => "id_acl_usuario", "nombre" => "nombre", "usuario" => "usuario", "activo" => "activo");
         $orden = isset($campos_orden[$sOrden]) ? $campos_orden[$sOrden] : self::PK_TABLA_USUARIO;
 
@@ -57,7 +61,7 @@ class Acl_usuarios_model extends CI_Model
 
     public function count_all($bSoloActivos = FALSE)
     {
-        $where = "estado = 'VIGENTE'";
+        $where = "eliminado = 0";
         if ($bSoloActivos === TRUE) {
             $where .= " AND activo = 'S'";
         }
@@ -96,11 +100,30 @@ class Acl_usuarios_model extends CI_Model
         return $this->db->insert_id();
     }
 
-    public function get_permisos_por_usuario($iIdUsuario)
+    public function get_permisos_personales_por_usuario($iIdUsuario)
     {
         $id_usuario = (int) $iIdUsuario;
-        $permisos_por_usuario = $this->_get_permisos_seteados_por_usuario($id_usuario);
-        return $this->_procesar_permisos_por_usuario($permisos_por_usuario);
+        $id_usuario = (int) $iIdUsuario;
+        $this->db->select("fk_acl_permiso as id_acl_permiso, tipo_permiso");
+        $this->db->where("fk_acl_usuario", $id_usuario);
+        $rows = $this->db->get('acl_usuario_permiso')->result_array();
+        return $rows;
+//        $permisos_por_usuario = $this->_get_permisos_seteados_por_usuario($id_usuario);
+//        return $this->_procesar_permisos_por_usuario($permisos_por_usuario);
+    }
+
+    public function get_permisos_de_grupo_por_usuario($iIdUsuario)
+    {
+        $id_usuario = (int) $iIdUsuario;
+        $this->db->select(""
+            . "gp.fk_acl_permiso as id_acl_permiso, "
+            . " gp.fk_acl_grupo as id_acl_grupo, "
+            . "g.nombre as grupo", FALSE);
+        $this->db->join("acl_grupo_permiso AS gp", "gp.fk_acl_grupo = ug.fk_acl_grupo", "INNER");
+        $this->db->join("acl_grupo AS g", "gp.fk_acl_grupo = g.id_acl_grupo", "INNER");
+        $this->db->where("ug.fk_acl_usuario", $id_usuario);
+        $rows = $this->db->get('acl_usuario_grupo AS ug')->result_array();
+        return $rows;
     }
 
     public function get_grupos_por_usuario($iIdUsuario, $sOrden = "asignado", $sSentido = "desc")
@@ -135,7 +158,7 @@ class Acl_usuarios_model extends CI_Model
     public function eliminar_usuarios($aIdsUsuarios)
     {
         $ids_usuario = (array) $aIdsUsuarios;
-        $values = array("activo" => "N", "estado" => "ELIMINADO");
+        $values = array("activo" => "N", "eliminado" => 1);
         foreach ($ids_usuario as $id_usuario) {
             $where[self::PK_TABLA_USUARIO] = $id_usuario;
             $this->db->update(self::TABLA_USUARIO, $values, $where);
@@ -154,41 +177,6 @@ class Acl_usuarios_model extends CI_Model
         return $like;
     }
 
-    private function _get_permisos_seteados_por_usuario($iIdUsuario)
-    {
-        $id_usuario = (int) $iIdUsuario;
-        $this->db->where("fk_acl_usuario", $id_usuario);
-        $rows = $this->db->get('acl_usuario_permiso')->result_array();
-        $permisos = array();
-        foreach ($rows as $row) {
-            $permisos[$row['fk_acl_permiso']] = $row;
-        }
-        return $permisos;
-    }
-
-    private function _procesar_permisos_por_usuario($aPermisosSeteadosPorUsuario)
-    {
-        $permisos_requeridos = $this->_get_permisos_seteados(TRUE);
-        $permisos_por_usuario = (array) $aPermisosSeteadosPorUsuario;
-        $mis_permisos = array();
-        $index = 0;
-        foreach ($permisos_requeridos as &$permiso) {
-            $permiso["permitido"] = NULL;
-            $permiso["denegado"] = NULL;
-            if (isset($permisos_por_usuario[$permiso["id_acl_permiso"]])) {
-                $tipo_permiso = (int) $permisos_por_usuario[$permiso["id_acl_permiso"]]["tipo_permiso"];
-                $permiso["permitido"] = $tipo_permiso === 1 ? 1 : 0;
-                $permiso["denegado"] = $tipo_permiso === 0 ? 1 : 0;
-            }
-            $nombre_clase = mb_strtolower($permiso["controlador"]);
-            if ( ! isset($mis_permisos[$nombre_clase])) {
-                $mis_permisos[$nombre_clase] = array();
-            }
-            array_push($mis_permisos[$nombre_clase], $permiso);
-            $index ++;
-        }
-        return $mis_permisos;
-    }
 
     private function _get_grupos_seteados_por_usuario($iIdUsuario, $sOrderBy = "asignado", $sSentido = "desc")
     {

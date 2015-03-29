@@ -1,4 +1,7 @@
-<?php if ($error = $this->input->get("error")): ?>
+<?php
+$error = $this->input->get("error");
+if ($error AND $this->session->flashdata("postdata")):
+    ?>
     <?php if ($error === "usuario_existente"): ?>
         <div class='alert alert-danger'>
             <p>Atenci&oacute;n: El usuario <strong><?php echo $data["usuario"]; ?></strong> ya se encuentra registrado. Utilice otro por favor</p>
