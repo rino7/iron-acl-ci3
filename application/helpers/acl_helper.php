@@ -92,7 +92,23 @@ if ( ! function_exists('get_usuarios')) {
     }
 
 }
+if ( ! function_exists('get_id_usuario')) {
 
+    /**
+     * Devuelve el id del usuario logueado o FALSE si no está logueado
+     * @return int
+     */
+    function get_id_usuario()
+    {
+        $CI = & get_instance();
+        $data = $CI->session->userdata("usuario");
+        if ( ! empty($data)) {
+            return (int) $data["id_acl_usuario"];
+        }
+        return FALSE;
+    }
+
+}
 if ( ! function_exists('get_nombre_usuario')) {
 
     /**
@@ -220,6 +236,22 @@ if ( ! function_exists('tiene_permiso')) {
             return TRUE;
         }
         return FALSE;
+    }
+
+}
+
+if ( ! function_exists('get_nombre_usuario_logueado')) {
+
+    /**
+     * Devuelve el nombre del usuario lgoeuado en el formato solicitado
+     * @param int $iIdUsuario
+     * @param string $tipo
+     * @return string
+     */
+    function get_nombre_usuario_logueado($tipo = "COMPLETO")
+    {
+        $id_usuario = get_id_usuario();
+        return get_nombre_usuario($id_usuario, $tipo);
     }
 
 }
