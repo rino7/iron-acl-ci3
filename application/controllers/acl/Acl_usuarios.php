@@ -23,7 +23,7 @@ class Acl_usuarios extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library(array("acl/acl", "pagination"));
+        $this->load->library(array("Acl/Acl", "pagination"));
         $this->load->helper(array("url", "acl"));
         $this->load->model("acl/acl_usuarios_model", "acl_usuarios_model");
     }

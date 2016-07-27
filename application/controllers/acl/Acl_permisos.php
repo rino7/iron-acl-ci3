@@ -20,7 +20,7 @@ class Acl_permisos extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->library("acl/acl");
+        $this->load->library("Acl/Acl");
         $this->load->helper(array("url", "acl"));
         $this->load->model("acl/acl_permisos_model", "model");
     }
