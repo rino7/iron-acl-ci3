@@ -149,13 +149,15 @@ class Acl
     {
         $whitelist = NULL;
         $blacklist = NULL;
+        $tipo_permiso = NULL;
         $id_permiso = 0;
         $identificador = armar_identificador_permiso($metodo->class, $metodo->name);
 
         if (isset($permisos_seteados[$identificador])) {
             $whitelist = $permisos_seteados[$identificador]["whitelist"];
             $blacklist = $permisos_seteados[$identificador]["blacklist"];
-            $id_permiso = $permisos_seteados[$identificador]["blacklist"];
+            $tipo_permiso = $permisos_seteados[$identificador]["tipo_permiso"];
+            $id_permiso = $permisos_seteados[$identificador]["id_acl_permiso"];
         }
         $descripcion = $this->_get_descripcion_permiso($annotations);
         $permiso['id_acl_permiso'] = $id_permiso;
@@ -165,6 +167,7 @@ class Acl
         $permiso['accion'] = $metodo->name;
         $permiso['whitelist'] = $whitelist;
         $permiso['blacklist'] = $blacklist;
+        $permiso['tipo_permiso'] = $tipo_permiso;
         return $permiso;
     }
 

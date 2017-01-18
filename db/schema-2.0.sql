@@ -2,7 +2,8 @@
 SQLyog Ultimate v10.00 Beta1
 MySQL - 5.5.16 : Database - iron_acl_ci3
 *********************************************************************
-*/
+*/
+
 
 /*!40101 SET NAMES utf8 */;
 
@@ -72,6 +73,7 @@ CREATE TABLE `acl_permiso` (
   `accion` varchar(255) DEFAULT NULL,
   `whitelist` int(1) DEFAULT NULL,
   `blacklist` int(1) DEFAULT NULL,
+  `tipo_permiso` enum("REQUERIDO","NO REQUERIDO", "PUBLICO") DEFAULT NULL,
   `activo` smallint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_acl_permiso`)
 ) ENGINE=MyISAM AUTO_INCREMENT=42 DEFAULT CHARSET=latin1;
