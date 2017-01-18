@@ -23,7 +23,7 @@ class Acl_grupos extends CI_Controller
         parent::__construct();
         $this->load->library(array("Acl/Acl", "pagination"));
         $this->load->helper(array("url", "acl"));
-        $this->load->model("acl/acl_grupos_model", "model");
+        $this->load->model("acl/Acl_grupos_model", "model");
     }
 
     /**

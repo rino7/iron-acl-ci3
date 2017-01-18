@@ -22,7 +22,7 @@ class Acl_permisos extends CI_Controller
         parent::__construct();
         $this->load->library("Acl/Acl");
         $this->load->helper(array("url", "acl"));
-        $this->load->model("acl/acl_permisos_model", "model");
+        $this->load->model("acl/Acl_permisos_model", "model");
     }
 
     public function index()
@@ -34,7 +34,6 @@ class Acl_permisos extends CI_Controller
     {
         $dataIndex = array();
         $dataIndex["permisos"] = $this->acl->get_permisos();
-
         $dataLayout = array();
         $dataLayout["contenido"] = $this->load->view("acl/permisos/permisos_acl", $dataIndex, TRUE);
         $dataLayout["js_agregado"] = "/assets/acl/js/permisos.js";
@@ -120,6 +119,7 @@ class Acl_permisos extends CI_Controller
         $descripciones = $this->input->post("descripcion");
         //Pongo en activo = 0, todos los permisos
         $this->model->desactivar_permisos();
+        //echo "<pre>";print_r($permisos);die;
         foreach ($permisos as $identificador => $blacklist) {
             //Luego, los permisos que est�n vigentes updatean el campo activo = 1
             $descripcion = isset($descripciones[$identificador]) ? $descripciones[$identificador] : "";
@@ -139,8 +139,22 @@ class Acl_permisos extends CI_Controller
         $value = array();
         $value["activo"] = 1;
         $value["descripcion"] = $sDescripcion;
-        $value["blacklist"] = $blacklist === "0" ? 0 : 1;
-        $value["whitelist"] = $blacklist === "0" ? 1 : 0;
+        if ($blacklist == "PUBLICO"){ 
+            $value["blacklist"] = 0;
+            $value["whitelist"] = 0;
+            $value["tipo_permiso"] = "PUBLICO";
+        } elseif($blacklist === "0") {
+            $value["blacklist"] = 1;
+            $value["whitelist"] = 0;
+            $value["tipo_permiso"] = "NO REQUERIDO";
+        } elseif($blacklist === "1") {
+            $value["blacklist"] = 1;
+            $value["whitelist"] = 0;
+            $value["tipo_permiso"] = "REQUERIDO";
+        }
+        
+        
+        
         $this->model->actualizar($sIdentificador, $value);
     }
 
@@ -158,6 +172,19 @@ class Acl_permisos extends CI_Controller
             $value["accion"] = $datos_permiso["accion"];
             $value["blacklist"] = $blacklist === "0" ? 0 : 1;
             $value["whitelist"] = $blacklist === "0" ? 1 : 0;
+            if ($blacklist == "PUBLICO"){ 
+                $value["blacklist"] = 0;
+                $value["whitelist"] = 0;
+                $value["tipo_permiso"] = "PUBLICO";
+            } elseif($blacklist === "0") {
+                $value["blacklist"] = 1;
+                $value["whitelist"] = 0;
+                $value["tipo_permiso"] = "NO REQUERIDO";
+            } elseif($blacklist === "1") {
+                $value["blacklist"] = 1;
+                $value["whitelist"] = 0;
+                $value["tipo_permiso"] = "REQUERIDO";
+            }          
             $this->model->insertar($value);
         }
     }

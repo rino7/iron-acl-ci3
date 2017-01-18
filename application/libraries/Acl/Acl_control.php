@@ -43,14 +43,10 @@ class Acl_control
     private function _whitelist_logueado()
     {
         $controlador = $this->_CI->router->fetch_class();
-        if ($controlador === self::CONTROLADOR_LOGIN) {
+        if ($controlador === self::CONTROLADOR_LOGIN || $this->_es_metodo_publico()) {
             return TRUE;
         }
         return FALSE;
-//        $whitelist = array("acl/acl_login", "acl/acl_login/index", "acl/acl_login/login", "acl/acl_login/logout", "logout", "login");
-//        $uri_string = trim(uri_string(), "/");
-//        $ok = in_array($uri_string, $whitelist);
-        //return $ok;
     }
 
     private function _usuario_logueado()
@@ -207,4 +203,10 @@ class Acl_control
         return (int) $cant > 0;
     }
 
+    private function _es_metodo_publico(){ 
+        $this->_CI->db->where('identificador', $this->_get_identificador());
+        $this->_CI->db->where('tipo_permiso', "PUBLICO");
+        $count = $this->_CI->db->count_all_results('acl_permiso');
+        return $count > 0;
+    }
 }

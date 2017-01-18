@@ -32,6 +32,7 @@
                                     <th>Acci&oacute;n</th>
                                     <th class="center">Permitido</th>
                                     <th class="center">Requerido</th>
+                                    <th class="center">Publico</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -54,6 +55,9 @@
                                         <td class="center">
                                             <input <?php echo (int) $accion["blacklist"] === 1 ? "checked" : ""; ?>  class="js-radio-blacklist js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="1" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
                                         </td>
+                                        <td class="center">
+                                            <input <?php echo $accion["tipo_permiso"] === "PUBLICO" ? "checked" : ""; ?>  class="js-radio-blacklist js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="PUBLICO" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
+                                        </td>                                        
                                     </tr>
                                 <?php endforeach; ?>
                             </tbody>

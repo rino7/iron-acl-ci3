@@ -25,7 +25,7 @@ class Acl_usuarios extends CI_Controller
         parent::__construct();
         $this->load->library(array("Acl/Acl", "pagination"));
         $this->load->helper(array("url", "acl"));
-        $this->load->model("acl/acl_usuarios_model", "acl_usuarios_model");
+        $this->load->model("acl/Acl_usuarios_model", "acl_usuarios_model");
     }
 
     public function index()
@@ -140,7 +140,7 @@ class Acl_usuarios extends CI_Controller
     public function permisos_usuario($iIdUsuario = 0)
     {
         $this->load->library("Acl/Acl_procesador_permisos", NULL, "procesador_permisos");
-        $this->load->model("Acl/Acl_permisos_model", "acl_permisos_model");
+        $this->load->model("acl/Acl_permisos_model", "acl_permisos_model");
         $id_usuario = (int) $iIdUsuario;
         $dataPagina = array();
         $permisos_de_usuario = $this->procesador_permisos->get_permisos_de_usuario($id_usuario);
