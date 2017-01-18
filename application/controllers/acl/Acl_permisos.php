@@ -146,7 +146,7 @@ class Acl_permisos extends CI_Controller
         } elseif($blacklist === "0") {
             $value["blacklist"] = 1;
             $value["whitelist"] = 0;
-            $value["tipo_permiso"] = "NO REQUERIDO";
+            $value["tipo_permiso"] = "NO_REQUERIDO";
         } elseif($blacklist === "1") {
             $value["blacklist"] = 1;
             $value["whitelist"] = 0;
@@ -179,7 +179,7 @@ class Acl_permisos extends CI_Controller
             } elseif($blacklist === "0") {
                 $value["blacklist"] = 1;
                 $value["whitelist"] = 0;
-                $value["tipo_permiso"] = "NO REQUERIDO";
+                $value["tipo_permiso"] = "NO_REQUERIDO";
             } elseif($blacklist === "1") {
                 $value["blacklist"] = 1;
                 $value["whitelist"] = 0;
