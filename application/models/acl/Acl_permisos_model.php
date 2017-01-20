@@ -13,6 +13,9 @@ class Acl_permisos_model extends CI_Model
 {
 
     const TABLA_PERMISO = "acl_permiso";
+    const PERMISO_REQUERIDO = "REQUERIDO";
+    const PERMISO_NO_REQUERIDO = "NO_REQUERIDO";
+    const PERMISO_PUBLICO = "PUBLICO";
 
     public function __construct()
     {
