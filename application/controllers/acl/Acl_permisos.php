@@ -139,18 +139,18 @@ class Acl_permisos extends CI_Controller
         $value = array();
         $value["activo"] = 1;
         $value["descripcion"] = $sDescripcion;
-        if ($blacklist == "PUBLICO"){ 
+        if ($blacklist == Acl_permisos_model::PERMISO_PUBLICO){ 
             $value["blacklist"] = 0;
             $value["whitelist"] = 0;
-            $value["tipo_permiso"] = "PUBLICO";
+            $value["tipo_permiso"] = Acl_permisos_model::PERMISO_PUBLICO;
         } elseif($blacklist === "0") {
             $value["blacklist"] = 1;
             $value["whitelist"] = 0;
-            $value["tipo_permiso"] = "NO_REQUERIDO";
+            $value["tipo_permiso"] = Acl_permisos_model::PERMISO_NO_REQUERIDO;
         } elseif($blacklist === "1") {
             $value["blacklist"] = 1;
             $value["whitelist"] = 0;
-            $value["tipo_permiso"] = "REQUERIDO";
+            $value["tipo_permiso"] = Acl_permisos_model::PERMISO_REQUERIDO;
         }
         
         
@@ -172,18 +172,18 @@ class Acl_permisos extends CI_Controller
             $value["accion"] = $datos_permiso["accion"];
             $value["blacklist"] = $blacklist === "0" ? 0 : 1;
             $value["whitelist"] = $blacklist === "0" ? 1 : 0;
-            if ($blacklist == "PUBLICO"){ 
+            if ($blacklist == Acl_permisos_model::PERMISO_PUBLICO){ 
                 $value["blacklist"] = 0;
                 $value["whitelist"] = 0;
-                $value["tipo_permiso"] = "PUBLICO";
+                $value["tipo_permiso"] = Acl_permisos_model::PERMISO_PUBLICO;
             } elseif($blacklist === "0") {
                 $value["blacklist"] = 1;
                 $value["whitelist"] = 0;
-                $value["tipo_permiso"] = "NO_REQUERIDO";
+                $value["tipo_permiso"] = Acl_permisos_model::PERMISO_NO_REQUERIDO;
             } elseif($blacklist === "1") {
                 $value["blacklist"] = 1;
                 $value["whitelist"] = 0;
-                $value["tipo_permiso"] = "REQUERIDO";
+                $value["tipo_permiso"] = Acl_permisos_model::PERMISO_REQUERIDO;
             }          
             $this->model->insertar($value);
         }

@@ -204,8 +204,9 @@ class Acl_control
     }
 
     private function _es_metodo_publico(){ 
+        $this->_CI->load->model(array("acl/Acl_permisos_model"));
         $this->_CI->db->where('identificador', $this->_get_identificador());
-        $this->_CI->db->where('tipo_permiso', "PUBLICO");
+        $this->_CI->db->where('tipo_permiso', Acl_permisos_model::PERMISO_PUBLICO);
         $count = $this->_CI->db->count_all_results('acl_permiso');
         return $count > 0;
     }
