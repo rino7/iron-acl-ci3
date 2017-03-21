@@ -1,0 +1,1 @@
+alter table acl_permiso add `tipo_permiso` enum("REQUERIDO","NO_REQUERIDO", "PUBLICO") DEFAULT  NULL after blacklist;
