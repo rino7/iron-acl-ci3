@@ -40,7 +40,7 @@ class Acl_control
         $this->_controladores_whitelist = array("acl");
     }
 
-    private function _whitelist_logueado()
+    protected function _whitelist_logueado()
     {
         $controlador = $this->_CI->router->fetch_class();
         if ($controlador === self::CONTROLADOR_LOGIN || $this->_es_metodo_publico()) {
