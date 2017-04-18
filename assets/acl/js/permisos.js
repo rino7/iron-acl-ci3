@@ -19,6 +19,13 @@ $(document).ready(function () {
 
         actualizarStatusControlador($contenedor);
     });
+    $('.js-publicar-todo').on('click', function () {
+        var $this = $(this);
+        var $contenedor = $this.parents('.js-contenedor-controlador');
+        seleccionarTodoPublico($this);
+        actualizarStatusControlador($contenedor);
+    });    
+    
     actualizarStatusControladores();
 });
 
@@ -31,20 +38,23 @@ function actualizarStatusControladores() {
 
 function actualizarStatusControlador($element) {
     var $contenedor = $element;
-    var cant_radios = $contenedor.find("input[type=radio]").length / 2; //Divido x 2 porque hay 2 opciones por acción
+    var cant_radios = $contenedor.find("input[type=radio]").length / 3; //Divido x 3 porque hay 2 opciones por acción
     var cant_checked_requerido = $contenedor.find("input[type=radio].js-radio-blacklist:checked").length;
     var cant_checked_permitido = $contenedor.find("input[type=radio].js-radio-whitelist:checked").length;
+    var cant_checked_publico = $contenedor.find("input[type=radio].js-radio-publico:checked").length;
     var color = 'panel-info';
     if (cant_radios > 0) {
         if (cant_checked_requerido === cant_radios) {
             color = 'panel-danger';
         } else if (cant_checked_permitido === cant_radios) {
             color = 'panel-success';
+        } else if (cant_checked_publico > 0 === cant_radios) {
+            color = 'panel-primary';
         } else if (cant_checked_permitido > 0 || cant_checked_requerido > 0) {
             color = 'panel-warning';
         }
     }
-    $contenedor.removeClass('panel-warning panel-success panel-danger panel-info');
+    $contenedor.removeClass('panel-warning panel-success panel-danger panel-info panel-primary');
     $contenedor.addClass(color);
 
 }
@@ -80,6 +90,23 @@ function seleccionarTodoRequerido($el) {
         toggleSeleccionarTodo(selector_checkbox, true);
     }
 }
+
+function seleccionarTodoPublico($el) {
+    var controlador = $el.data('controlador');
+    var selector_checkbox = '.js-radio-publico-' + controlador;
+    var selector_checkbox_opuesto = '.js-radio-whitelist-' + controlador;
+    var cant_checkboxs = $(selector_checkbox).length;
+    var cant_checked = $('.js-radio-publico-' + controlador + ':checked').length;
+    $(selector_checkbox_opuesto).each(function () {
+        $(this).prop("checked", false);
+    });
+    if (cant_checked === cant_checkboxs) {
+        toggleSeleccionarTodo(selector_checkbox, false);
+    } else {
+        toggleSeleccionarTodo(selector_checkbox, true);
+    }
+}
+
 
 function toggleSeleccionarTodo(selector, seleccionado) {
     var inputs = $(selector);
