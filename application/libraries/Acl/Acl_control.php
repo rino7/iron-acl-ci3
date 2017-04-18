@@ -152,7 +152,7 @@ class Acl_control
     private function _es_whitelist()
     {
         $this->_CI->db->where('id_acl_permiso', $this->_id_permiso);
-        $this->_CI->db->where('whitelist', 1);
+        $this->_CI->db->where('tipo_permiso', Acl_permisos_model::PERMISO_NO_REQUERIDO);
         $count = $this->_CI->db->count_all_results('acl_permiso');
         return $count > 0;
     }

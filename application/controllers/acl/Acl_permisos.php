@@ -133,28 +133,20 @@ class Acl_permisos extends CI_Controller
         $this->model->borrar_permisos_obsoletos();
     }
 
-    private function _actualizar_permiso($sDescripcion, $sIdentificador, $sBlacklist)
+    private function _actualizar_permiso($sDescripcion, $sIdentificador, $sTipoPermiso)
     {
-        $blacklist = (string) $sBlacklist;
         $value = array();
         $value["activo"] = 1;
+        $value["tipo_permiso"] = (string) $sTipoPermiso;
         $value["descripcion"] = $sDescripcion;
-        if ($blacklist == Acl_permisos_model::PERMISO_PUBLICO){ 
-            $value["blacklist"] = 0;
-            $value["whitelist"] = 0;
+        /*if ($blacklist == Acl_permisos_model::PERMISO_PUBLICO){ 
             $value["tipo_permiso"] = Acl_permisos_model::PERMISO_PUBLICO;
-        } elseif($blacklist === "0") {
-            $value["blacklist"] = 1;
-            $value["whitelist"] = 0;
+        } elseif($blacklist == Acl_permisos_model::PERMISO_NO_REQUERIDO) {
             $value["tipo_permiso"] = Acl_permisos_model::PERMISO_NO_REQUERIDO;
-        } elseif($blacklist === "1") {
-            $value["blacklist"] = 1;
-            $value["whitelist"] = 0;
+        } elseif($blacklist == Acl_permisos_model::PERMISO_REQUERIDO) {
             $value["tipo_permiso"] = Acl_permisos_model::PERMISO_REQUERIDO;
-        }
-        
-        
-        
+        }*/
+        //print_r($value);die;
         $this->model->actualizar($sIdentificador, $value);
     }
 
@@ -170,21 +162,13 @@ class Acl_permisos extends CI_Controller
             $value["identificador"] = $identificador;
             $value["controlador"] = $datos_permiso["controlador"];
             $value["accion"] = $datos_permiso["accion"];
-            $value["blacklist"] = $blacklist === "0" ? 0 : 1;
-            $value["whitelist"] = $blacklist === "0" ? 1 : 0;
             if ($blacklist == Acl_permisos_model::PERMISO_PUBLICO){ 
-                $value["blacklist"] = 0;
-                $value["whitelist"] = 0;
                 $value["tipo_permiso"] = Acl_permisos_model::PERMISO_PUBLICO;
-            } elseif($blacklist === "0") {
-                $value["blacklist"] = 1;
-                $value["whitelist"] = 0;
+            } elseif($blacklist == Acl_permisos_model::PERMISO_NO_REQUERIDO) {
                 $value["tipo_permiso"] = Acl_permisos_model::PERMISO_NO_REQUERIDO;
-            } elseif($blacklist === "1") {
-                $value["blacklist"] = 1;
-                $value["whitelist"] = 0;
-                $value["tipo_permiso"] = Acl_permisos_model::PERMISO_REQUERIDO;
-            }          
+            } elseif($blacklist == Acl_permisos_model::PERMISO_REQUERIDO) {
+            $value["tipo_permiso"] = Acl_permisos_model::PERMISO_REQUERIDO;
+        }         
             $this->model->insertar($value);
         }
     }

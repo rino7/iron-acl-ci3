@@ -154,8 +154,6 @@ class Acl
         $identificador = armar_identificador_permiso($metodo->class, $metodo->name);
 
         if (isset($permisos_seteados[$identificador])) {
-            $whitelist = $permisos_seteados[$identificador]["whitelist"];
-            $blacklist = $permisos_seteados[$identificador]["blacklist"];
             $tipo_permiso = $permisos_seteados[$identificador]["tipo_permiso"];
             $id_permiso = $permisos_seteados[$identificador]["id_acl_permiso"];
         }
@@ -165,8 +163,6 @@ class Acl
         $permiso['identificador'] = $identificador;
         $permiso['controlador'] = $metodo->class;
         $permiso['accion'] = $metodo->name;
-        $permiso['whitelist'] = $whitelist;
-        $permiso['blacklist'] = $blacklist;
         $permiso['tipo_permiso'] = $tipo_permiso;
         return $permiso;
     }

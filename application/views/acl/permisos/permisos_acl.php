@@ -21,6 +21,7 @@
                     <div class="pull-right js-botones-todo">
                         <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-success js-permitir-todo">Permitir todo</button>
                         <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-danger js-requerir-todo">Requerir todo</button>
+                        <button type="button" data-controlador="<?php echo $controlador; ?>" class="btn btn-info js-publicar-todo">Publicar todo</button>
                     </div>
                 </div>
                 <div id="acciones_<?php echo $controlador; ?>" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading_<?php echo $controlador; ?>">
@@ -50,13 +51,13 @@
                                         </td>
                                         <td><?php echo $accion["accion"]; ?></td>
                                         <td class="center">
-                                            <input <?php echo (int) $accion["whitelist"] === 1 ? "checked" : ""; ?> class="js-radio-whitelist js-radio-whitelist-<?php echo $controlador; ?>" type="radio" value="0" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
+                                            <input <?php echo $accion["tipo_permiso"] == Acl_permisos_model::PERMISO_NO_REQUERIDO ? "checked" : ""; ?> class="js-radio-whitelist js-radio-whitelist-<?php echo $controlador; ?>" type="radio" value="<?=Acl_permisos_model::PERMISO_NO_REQUERIDO?>" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
                                         </td>
                                         <td class="center">
-                                            <input <?php echo (int) $accion["blacklist"] === 1 ? "checked" : ""; ?>  class="js-radio-blacklist js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="1" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
+                                            <input <?php echo $accion["tipo_permiso"] == Acl_permisos_model::PERMISO_REQUERIDO ? "checked" : ""; ?> class="js-radio-blacklist js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="<?=Acl_permisos_model::PERMISO_REQUERIDO?>" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
                                         </td>
                                         <td class="center">
-                                            <input <?php echo $accion["tipo_permiso"] === Acl_permisos_model::PERMISO_PUBLICO ? "checked" : ""; ?>  class="js-radio-blacklist js-radio-blacklist-<?php echo $controlador; ?>" type="radio" value="<?=Acl_permisos_model::PERMISO_PUBLICO?>" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
+                                            <input <?php echo $accion["tipo_permiso"] == Acl_permisos_model::PERMISO_PUBLICO ? "checked" : ""; ?>  class="js-radio-publico js-radio-publico-<?php echo $controlador; ?>" type="radio" value="<?=Acl_permisos_model::PERMISO_PUBLICO?>" name="blacklist[<?php echo $accion["identificador"]; ?>]" />
                                         </td>                                        
                                     </tr>
                                 <?php endforeach; ?>

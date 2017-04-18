@@ -71,8 +71,6 @@ CREATE TABLE `acl_permiso` (
   `identificador` varchar(100) DEFAULT NULL,
   `controlador` varchar(100) DEFAULT NULL,
   `accion` varchar(255) DEFAULT NULL,
-  `whitelist` int(1) DEFAULT NULL,
-  `blacklist` int(1) DEFAULT NULL,
   `tipo_permiso` enum("REQUERIDO","NO_REQUERIDO", "PUBLICO") DEFAULT NULL,
   `activo` smallint(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id_acl_permiso`)
