@@ -78,7 +78,43 @@ CREATE TABLE `acl_permiso` (
 
 /*Data for the table `acl_permiso` */
 
-insert  into `acl_permiso`(`id_acl_permiso`,`descripcion`,`identificador`,`controlador`,`accion`,`whitelist`,`blacklist`,`activo`) values (1,'Cambiar el estado del grupo','acl_grupos/cambiar_activo','acl_grupos','cambiar_activo',0,1,1),(2,'Mostrar todos los grupos','acl_grupos/listar','acl_grupos','listar',0,1,1),(3,'','acl_grupos/guardar','acl_grupos','guardar',0,1,1),(4,'','acl_grupos/permisos_grupo','acl_grupos','permisos_grupo',0,1,1),(5,'','acl_grupos/guardar_permisos_grupo','acl_grupos','guardar_permisos_grupo',0,1,1),(6,'','acl_grupos/asignar_usuarios_grupo','acl_grupos','asignar_usuarios_grupo',0,1,1),(7,'','acl_grupos/grupos_usuario','acl_grupos','grupos_usuario',0,1,1),(8,'','acl_grupos/ajax_buscar_usuario','acl_grupos','ajax_buscar_usuario',0,1,1),(9,'','acl_grupos/guardar_usuario_grupo','acl_grupos','guardar_usuario_grupo',0,1,1),(10,'','acl_grupos/desasignar_usuarios_grupo','acl_grupos','desasignar_usuarios_grupo',0,1,1),(11,'','acl_grupos/eliminar_grupos','acl_grupos','eliminar_grupos',0,1,1),(12,'','acl_permisos/index','acl_permisos','index',0,1,1),(13,'','acl_permisos/listar','acl_permisos','listar',0,1,1),(14,'','acl_permisos/custom','acl_permisos','custom',0,1,1),(15,'','acl_permisos/guardar_custom','acl_permisos','guardar_custom',0,1,1),(16,'','acl_permisos/guardar','acl_permisos','guardar',0,1,1),(17,'','acl_usuarios/index','acl_usuarios','index',0,1,1),(18,'','acl_usuarios/listar','acl_usuarios','listar',0,1,1),(19,'','acl_usuarios/nuevo','acl_usuarios','nuevo',0,1,1),(20,'','acl_usuarios/editar','acl_usuarios','editar',0,1,1),(21,'','acl_usuarios/guardar','acl_usuarios','guardar',0,1,1),(22,'','acl_usuarios/permisos_usuario','acl_usuarios','permisos_usuario',0,1,1),(23,'','acl_usuarios/grupos_usuario','acl_usuarios','grupos_usuario',0,1,1),(24,'','acl_usuarios/guardar_grupos_usuario','acl_usuarios','guardar_grupos_usuario',0,1,1),(25,'','acl_usuarios/guardar_permisos_usuario','acl_usuarios','guardar_permisos_usuario',0,1,1),(26,'','acl_usuarios/cambiar_activo','acl_usuarios','cambiar_activo',0,1,1),(27,'','acl_usuarios/eliminar_usuarios','acl_usuarios','eliminar_usuarios',0,1,1),(28,'','acl_usuarios/cambiar_contrasenia','acl_usuarios','cambiar_contrasenia',0,1,1),(29,'','welcome/index','welcome','index',1,0,1),(30,'Crear un nuevo grupo','grupos/crear','acl_custom','acl_custom',0,1,1),(31,'Editar el nombre de un grupo','grupos/editar','acl_custom','acl_custom',0,1,1),(37,'Método de ejemplo para requerir su ingreso. Está en la blacklist.','ejemplo/metodo_requerido','ejemplo','metodo_requerido',0,1,1),(38,'Método de ejemplo para permitir su ingreso','ejemplo/metodo_permitido','ejemplo','metodo_permitido',0,1,1),(39,'Método de ejemplo para restringir ingreso','ejemplo/metodo_no_permitido','ejemplo','metodo_no_permitido',0,1,1),(40,'Método de ejemplo para no requerirlo. Está en la whitelist','ejemplo/metodo_no_requerido','ejemplo','metodo_no_requerido',1,0,1),(41,'Método que no se definió el permiso','ejemplo/metodo_sin_definir_permiso','ejemplo','metodo_sin_definir_permiso',0,1,1);
+insert  into `acl_permiso`(`id_acl_permiso`,`descripcion`,`identificador`,`controlador`,`accion`,`tipo_permiso`,`activo`) values
+ (1,'Cambiar el estado del grupo','acl_grupos/cambiar_activo','acl_grupos','cambiar_activo','REQUERIDO',1),
+ (2,'Mostrar todos los grupos','acl_grupos/listar','acl_grupos','listar','REQUERIDO',1),
+ (3,'','acl_grupos/guardar','acl_grupos','guardar','REQUERIDO',1),
+ (4,'','acl_grupos/permisos_grupo','acl_grupos','permisos_grupo','REQUERIDO',1),
+ (5,'','acl_grupos/guardar_permisos_grupo','acl_grupos','guardar_permisos_grupo','REQUERIDO',1),
+ (6,'','acl_grupos/asignar_usuarios_grupo','acl_grupos','asignar_usuarios_grupo','REQUERIDO',1),
+ (7,'','acl_grupos/grupos_usuario','acl_grupos','grupos_usuario','REQUERIDO',1),
+ (8,'','acl_grupos/ajax_buscar_usuario','acl_grupos','ajax_buscar_usuario','REQUERIDO',1),
+ (9,'','acl_grupos/guardar_usuario_grupo','acl_grupos','guardar_usuario_grupo','REQUERIDO',1),
+ (10,'','acl_grupos/desasignar_usuarios_grupo','acl_grupos','desasignar_usuarios_grupo','REQUERIDO',1),
+ (11,'','acl_grupos/eliminar_grupos','acl_grupos','eliminar_grupos','REQUERIDO',1),
+ (12,'','acl_permisos/index','acl_permisos','index','REQUERIDO',1),
+ (13,'','acl_permisos/listar','acl_permisos','listar','REQUERIDO',1),
+ (14,'','acl_permisos/custom','acl_permisos','custom','REQUERIDO',1),
+ (15,'','acl_permisos/guardar_custom','acl_permisos','guardar_custom','REQUERIDO',1),
+ (16,'','acl_permisos/guardar','acl_permisos','guardar','REQUERIDO',1),
+ (17,'','acl_usuarios/index','acl_usuarios','index','REQUERIDO',1),
+ (18,'','acl_usuarios/listar','acl_usuarios','listar','REQUERIDO',1),
+ (19,'','acl_usuarios/nuevo','acl_usuarios','nuevo','REQUERIDO',1),
+ (20,'','acl_usuarios/editar','acl_usuarios','editar','REQUERIDO',1),
+ (21,'','acl_usuarios/guardar','acl_usuarios','guardar','REQUERIDO',1),
+ (22,'','acl_usuarios/permisos_usuario','acl_usuarios','permisos_usuario','REQUERIDO',1),
+ (23,'','acl_usuarios/grupos_usuario','acl_usuarios','grupos_usuario','REQUERIDO',1),
+ (24,'','acl_usuarios/guardar_grupos_usuario','acl_usuarios','guardar_grupos_usuario','REQUERIDO',1),
+ (25,'','acl_usuarios/guardar_permisos_usuario','acl_usuarios','guardar_permisos_usuario','REQUERIDO',1),
+ (26,'','acl_usuarios/cambiar_activo','acl_usuarios','cambiar_activo','REQUERIDO',1),
+ (27,'','acl_usuarios/eliminar_usuarios','acl_usuarios','eliminar_usuarios','REQUERIDO',1),
+ (28,'','acl_usuarios/cambiar_contrasenia','acl_usuarios','cambiar_contrasenia','REQUERIDO',1),
+ (29,'','welcome/index','welcome','index','NO_REQUERIDO',1),
+ (30,'Crear un nuevo grupo','grupos/crear','acl_custom','acl_custom','REQUERIDO',1),
+ (31,'Editar el nombre de un grupo','grupos/editar','acl_custom','acl_custom','REQUERIDO',1),
+ (37,'Método de ejemplo para requerir su ingreso. Está en la blacklist.','ejemplo/metodo_requerido','ejemplo','metodo_requerido','REQUERIDO',1),
+ (38,'Método de ejemplo para permitir su ingreso','ejemplo/metodo_permitido','ejemplo','metodo_permitido','REQUERIDO',1),
+ (39,'Método de ejemplo para restringir ingreso','ejemplo/metodo_no_permitido','ejemplo','metodo_no_permitido','REQUERIDO',1),
+ (40,'Método de ejemplo para no requerirlo. Está en la whitelist','ejemplo/metodo_no_requerido','ejemplo','metodo_no_requerido','NO_REQUERIDO',1),
+ (41,'Método que no se definió el permiso','ejemplo/metodo_sin_definir_permiso','ejemplo','metodo_sin_definir_permiso','REQUERIDO',1);
 
 /*Table structure for table `acl_usuario` */
 
