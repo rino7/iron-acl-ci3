@@ -30,7 +30,7 @@ class Acl_permisos_model extends CI_Model
     {
         $this->db->order_by('controlador', 'asc');
         if ($bSoloRequerido === TRUE) {
-            $this->db->where("blacklist", 1);
+            $this->db->where("tipo_permiso", self::PERMISO_REQUERIDO);
         }
         $rows = $this->db->get('acl_permiso')->result_array();
         $permisos = array();
